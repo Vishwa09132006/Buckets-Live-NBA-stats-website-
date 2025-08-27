@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BucketsLive</title>
+    
+    <!-- AWS Cognito SDK -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/amazon-cognito-identity-js/6.3.12/amazon-cognito-identity.min.js"></script>
+    
+    <link rel="shortcut icon" href="ball.logo.png">
+    <link rel="stylesheet" href="bucketsLiveHomepage.css">
+    <link rel="stylesheet" href="auth-modal-styles.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+</head>
+
+<body>
+    <header>
+        <div class="navbar">
+            <div class="logo">
+                <a href="bucketsLiveHomepage.html"><img class="ball" src="ball.logo.png" alt=""><span> BucketsLive </span></a>
+            </div>
+
+            <ul class="links">
+                <li><a href="#">Games</a></li>
+                <li><a href="#">Scores</a></li>
+                <li><a href="#">News</a></li>
+                <li><a href="#">Players</a></li>
+            </ul>
+
+            <div class="loginsignup">
+                <!-- Updated sign-in button with auth functionality -->
+                <a href="#" id="auth-btn" class="signup" onclick="handleAuthClick()">
+                    <span class="material-symbols-outlined">account_circle</span>
+                    <span id="auth-text">Sign-in</span>
+                </a>
+            </div>
+            
+            <div class="toggle-btn">
+                <a href="#" onclick="toggleSideBar()"><span class="material-symbols-outlined">menu</span></a>
+                <div class="sidebar">
+                    <div>
+                        <a href="bucketsLiveHomepage.html" class="sidebar-logo"><img class="ball" src="ball.logo.png" alt=""><span> BucketsLive </span></a>
+                        <a href="#" onclick="toggleSideBar()"><span class="material-symbols-outlined">menu</span></a>
+                    </div>
+                    <li><a href="#" class="active">Home</a></li>
+                    <li><a href="#">About us</a></li>
+                    <li><a href="#">Contact us</a></li>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- User Dashboard (shows when logged in) -->
+    <div id="user-dashboard" class="user-dashboard" style="display: none;">
+        <h2>Welcome back, <span id="user-display-name"></span>! 🏀</h2>
+        <div class="dashboard-stats">
+            <div class="stat-card">
+                <h4>Favorite Team</h4>
+                <p id="user-favorite-team">Not set</p>
+            </div>
+            <div class="stat-card">
+                <h4>Member Since</h4>
+                <p id="user-member-since">Today</p>
+            </div>
+            <div class="stat-card">
+                <h4>Profile Status</h4>
+                <p id="user-status">Active</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="search-container">
+        <div class="search-bar">
+            <div class="input">
+                <div class="material-symbols-outlined">search</div>
+                <input type="text" name="" id="mysearch" placeholder="Search players, stats and news..">
+            </div>
+            <b><span class="clear" onclick="document.getElementById('mysearch').value = ''"></span></b>
+        </div>
+    </div>
+
+    <div class="parent">
+        <div class="container-left">
+            <h3>Today's Games</h3>
+            <p>Games data will load here once you're authenticated...</p>
+        </div>
+
+        <div class="container-right">
+            <h3>Latest Scores</h3>
+            <p>Scores data will load here once you're authenticated...</p>
+        </div>
+
+        <div class="container-3">
+            <h3>Top Players This Week</h3>
+            <p>Player stats will load here once you're authenticated...</p>
+        </div>
+    </div>
+
+    <!-- Include JavaScript files in the correct order at the end of body -->
+    <script src="aws-config.js"></script>
+    <script src="auth-modals.js"></script>
+    <script src="bucketsLive.js"></script>
+
+    <script>
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeAuth();
+        });
+    </script>
+
+</body>
+
+</html>
