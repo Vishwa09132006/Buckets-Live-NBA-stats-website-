@@ -1,2 +1,2 @@
 # Buckets-Live-NBA-stats-website-
-Early stages of this NBA Stat Tracker with many other features that I want to deploy using AWS cloud services.
+In the early stages of this NBA Stat Tracker being built with HTML, CSS, Javascript and deployed using AWS cloud services. Stay tuned.
