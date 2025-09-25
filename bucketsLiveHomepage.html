@@ -6,12 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BucketsLive</title>
     
-    <!-- AWS Cognito SDK -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/amazon-cognito-identity-js/6.3.12/amazon-cognito-identity.min.js"></script>
+    
     
     <link rel="shortcut icon" href="ball.logo.png">
     <link rel="stylesheet" href="bucketsLiveHomepage.css">
-    <link rel="stylesheet" href="auth-modal-styles.css">
+    
 
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
 </head>
@@ -30,9 +29,9 @@
                 <li><a href="#">Players</a></li>
             </ul>
 
-            <div class="loginsignup">
-                <!-- Updated sign-in button with auth functionality -->
-                <a href="#" id="auth-btn" class="signup" onclick="handleAuthClick()">
+            <div class="signup-container">
+                
+                <a href="#" id="auth-btn" class="signup" >
                     <span class="material-symbols-outlined">account_circle</span>
                     <span id="auth-text">Sign-in</span>
                 </a>
@@ -53,24 +52,7 @@
         </div>
     </header>
 
-    <!-- User Dashboard (shows when logged in) -->
-    <div id="user-dashboard" class="user-dashboard" style="display: none;">
-        <h2>Welcome back, <span id="user-display-name"></span>! 🏀</h2>
-        <div class="dashboard-stats">
-            <div class="stat-card">
-                <h4>Favorite Team</h4>
-                <p id="user-favorite-team">Not set</p>
-            </div>
-            <div class="stat-card">
-                <h4>Member Since</h4>
-                <p id="user-member-since">Today</p>
-            </div>
-            <div class="stat-card">
-                <h4>Profile Status</h4>
-                <p id="user-status">Active</p>
-            </div>
-        </div>
-    </div>
+    
 
     <div class="search-container">
         <div class="search-bar">
@@ -99,17 +81,7 @@
         </div>
     </div>
 
-    <!-- Include JavaScript files in the correct order at the end of body -->
-    <script src="aws-config.js"></script>
-    <script src="auth-modals.js"></script>
-    <script src="bucketsLive.js"></script>
-
-    <script>
-        // Initialize when page loads
-        document.addEventListener('DOMContentLoaded', function() {
-            initializeAuth();
-        });
-    </script>
+    
 
 </body>
 
