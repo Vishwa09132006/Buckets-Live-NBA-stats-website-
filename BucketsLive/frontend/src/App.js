@@ -1,23 +1,19 @@
-import logo from './logo.svg';
+import React from 'react';
+import Navbar from './components/Navbar/Navbar';
 import './App.css';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Welcome to BucketsLive - NBA Stats Tracker! 🏀
+      <Navbar />
+      
+      <div style={{ padding: '40px 20px', color: 'white', textAlign: 'center' }}>
+        <h1>🏀 Welcome to BucketsLive!</h1>
+        <p>Your NBA Stats Tracker is under construction</p>
+        <p style={{ marginTop: '20px', opacity: 0.7 }}>
+          Navbar should appear above. Try resizing your browser!
         </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      </div>
     </div>
   );
 }

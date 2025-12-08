@@ -1,0 +1,340 @@
+* {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-weight: bold;
+}
+
+body {
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    background-color: rgb(20, 20, 20);
+    min-height: 100vh;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    font-weight: bold;
+
+}
+
+li {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+    color: white;
+    font-size: 1rem;
+    transition: color .5s;
+
+}
+
+a:hover {
+
+    color: rgb(0, 168, 255);
+}
+
+header {
+    position: relative;
+    padding: 0 2 rem;
+    background-color: rgb(29, 29, 29);
+    box-shadow: 3px 3px 3px black;
+
+}
+
+
+
+.navbar {
+    position: relative;
+    width: 100%;
+    height: 60px;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    text-shadow: 0px 2px 2px black;
+}
+
+.navbar .logo a {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-left: 20px;
+
+}
+
+.navbar .logo a:hover {
+    color: gold;
+}
+
+.navbar .ball {
+    width: 30px;
+    vertical-align: top;
+
+    margin-right: 5px;
+}
+
+.logo .ball {
+    font-size: 30px;
+}
+
+.navbar .links {
+    display: flex;
+    gap: 2.2rem;
+
+
+
+}
+
+.navbar a.active {
+    color: rgb(0, 168, 255);
+
+}
+
+.navbar .toggle-btn {
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    display: none;
+    margin-right: 20px;
+
+}
+
+.signup {
+    display: flex;
+    align-items: center;
+    border-radius: 20px;
+    border: none;
+    outline: none;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    background-color: rgb(0, 168, 255);
+    text-shadow: none;
+    box-shadow: 1px 3px 3px black;
+    transition: color .50s, background-color .50s;
+    margin-right: 20px;
+    color: white;
+
+
+}
+
+.signup .material-symbols-outlined {
+    margin-right: 5px;
+    
+    align-items: center;
+
+}
+
+.signup:hover {
+    color: rgb(0, 168, 255);
+    background-color: white;
+    box-shadow: 1px 3px 3px black;
+
+}
+
+
+
+.sidebar {
+    position: fixed;
+    background-color: rgb(29, 29, 29);
+    width: 200px;
+    height: 50vh;
+    top: 0;
+    right: 0;
+    display: none;
+    color: white;
+    text-align: right;
+    padding: 0 5px 0 15px;
+    box-shadow: 1px 1px 3px 2px black;
+
+
+
+}
+
+.open .sidebar {
+    display: block;
+
+
+}
+
+.sidebar-logo {
+    padding-right: 20px;
+}
+
+
+.search-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 20px 10px;
+
+
+}
+
+
+
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    background: #222;
+    border-radius: 25px;
+    padding: 2px 10px;
+    width: 100%;
+    width: 800px;
+    max-width: 1000px;
+    /* keeps it neat on desktop */
+    box-sizing: border-box;
+    position: relative;
+    /* required for absolute icons inside */
+    transition: border 0.2s, box-shadow 0.2s;
+}
+
+/* Glow outline when active */
+.search-bar:focus-within {
+    border: 2px solid rgb(0, 168, 255);
+    box-shadow: 0 0 6px rgba(0, 168, 255, 0.7);
+
+
+}
+
+.search-bar .input {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    min-width: 0;
+    /* prevents text cutoff */
+}
+
+.search-bar .input input {
+    flex: 1;
+    width: 100%;
+    padding: 10px 40px 10px 35px;
+    /* space for icons */
+    border: none;
+    outline: none;
+    background: transparent;
+    color: white;
+    font-size: 16px;
+    min-width: 0;
+    /* ✅ prevents text cutting */
+}
+
+/* Placeholder */
+.search-bar .input input::placeholder {
+    color: #ccc;
+}
+
+/* Search icon */
+.search-bar .material-symbols-outlined {
+    position: absolute;
+    left: 10px;
+    font-size: 22px;
+    color: rgb(0, 168, 255);
+    pointer-events: none;
+    /* so clicks go through */
+}
+
+/* Clear (X) button */
+.clear {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.clear::before,
+.clear::after {
+    content: '';
+    position: absolute;
+    width: 2px;
+    height: 16px;
+    background-color: rgb(0, 168, 255);
+}
+
+.clear::before {
+    transform: rotate(45deg);
+}
+
+.clear::after {
+    transform: rotate(-45deg);
+}
+
+
+
+.parent {
+
+    display: flex;
+    margin: 20px;
+    max-width: 500px;
+    flex-wrap: wrap;
+    
+    gap: 2rem;
+
+}
+
+.container-right,
+.container-left,
+.container-3 {
+    background-color: rgb(29, 29, 29);
+    padding: 10px;
+    color: white;
+    min-width: 200px;
+    border-radius: 10px;
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: auto;
+
+}
+
+
+@media(max-width: 756px) {
+    .dropdown-menu {
+        left: 2rem;
+        width: unset;
+    }
+}
+
+@media(max-width: 560px) {}
+
+@media (max-width: 900px) {
+
+    .navbar .links,
+    .signup,
+    .login {
+        display: none;
+    }
+
+
+
+    .navbar .toggle-btn {
+        display: block;
+    }
+
+
+}
+
+/* Add this to the END of your bucketsLiveHomepage.css file */
+
+/* Modal Authentication Styles */
+.auth-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(5px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    animation: fadeIn 0.3s ease;
+}
