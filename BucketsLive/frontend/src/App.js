@@ -1,20 +1,30 @@
 import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar/Navbar';
+import Home from './pages/Home';
+import Games from './pages/Games';
+import Scores from './pages/Scores';
+import News from './pages/News';
+import Players from './pages/Players';
+import About from './pages/About';
 import './App.css';
 
 function App() {
   return (
-    <div className="App">
-      <Navbar />
-      
-      <div style={{ padding: '40px 20px', color: 'white', textAlign: 'center' }}>
-        <h1>🏀 Welcome to BucketsLive!</h1>
-        <p>Your NBA Stats Tracker is under construction</p>
-        <p style={{ marginTop: '20px', opacity: 0.7 }}>
-          Navbar should appear above. Try resizing your browser!
-        </p>
+    <Router>
+      <div className="App">
+        <Navbar />
+        
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/games" element={<Games />} />
+          <Route path="/scores" element={<Scores />} />
+          <Route path="/news" element={<News />} />
+          <Route path="/players" element={<Players />} />
+          <Route path="/about" element={<About />} />
+        </Routes>
       </div>
-    </div>
+    </Router>
   );
 }
 
