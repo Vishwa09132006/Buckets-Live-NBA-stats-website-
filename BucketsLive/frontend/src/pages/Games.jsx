@@ -1,87 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { mockGames } from '../data/mockGames';
 
 function Games() {
-  // Enhanced mock data with realistic NBA teams
-  const [games] = useState([
-    {
-      id: 1,
-      homeTeam: 'Lakers',
-      homeLogo: '🏀',
-      awayTeam: 'Warriors',
-      awayLogo: '🏀',
-      homeScore: 112,
-      awayScore: 108,
-      status: 'Final',
-      quarter: 'Q4',
-      date: 'Today, 7:30 PM EST',
-      venue: 'Crypto.com Arena'
-    },
-    {
-      id: 2,
-      homeTeam: 'Celtics',
-      homeLogo: '🏀',
-      awayTeam: 'Heat',
-      awayLogo: '🏀',
-      homeScore: 95,
-      awayScore: 98,
-      status: 'Final',
-      quarter: 'Q4',
-      date: 'Today, 8:00 PM EST',
-      venue: 'TD Garden'
-    },
-    {
-      id: 3,
-      homeTeam: 'Bucks',
-      homeLogo: '🏀',
-      awayTeam: 'Nets',
-      awayLogo: '🏀',
-      homeScore: 87,
-      awayScore: 92,
-      status: 'Live',
-      quarter: 'Q3 - 5:23',
-      date: 'Today, 8:30 PM EST',
-      venue: 'Fiserv Forum'
-    },
-    {
-      id: 4,
-      homeTeam: 'Mavericks',
-      homeLogo: '🏀',
-      awayTeam: 'Suns',
-      awayLogo: '🏀',
-      homeScore: 0,
-      awayScore: 0,
-      status: 'Upcoming',
-      quarter: 'Scheduled',
-      date: 'Tomorrow, 7:00 PM EST',
-      venue: 'American Airlines Center'
-    },
-    {
-      id: 5,
-      homeTeam: 'Nuggets',
-      homeLogo: '🏀',
-      awayTeam: 'Clippers',
-      awayLogo: '🏀',
-      homeScore: 0,
-      awayScore: 0,
-      status: 'Upcoming',
-      quarter: 'Scheduled',
-      date: 'Tomorrow, 9:00 PM EST',
-      venue: 'Ball Arena'
-    },
-    {
-      id: 6,
-      homeTeam: '76ers',
-      homeLogo: '🏀',
-      awayTeam: 'Knicks',
-      awayLogo: '🏀',
-      homeScore: 0,
-      awayScore: 0,
-      status: 'Upcoming',
-      quarter: 'Scheduled',
-      date: 'Tomorrow, 7:30 PM EST',
-      venue: 'Wells Fargo Center'
-    }
-  ]);
+  // Use imported mock data instead of local state
+  const games = mockGames;
 
   const getStatusColor = (status) => {
     switch(status) {
