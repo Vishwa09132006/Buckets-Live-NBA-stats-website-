@@ -1,21 +1,13 @@
 import React from 'react';
 import { mockGames } from '../data/mockGames';
+import GameCard from '../components/GameCard/GameCard';
 
 function Games() {
-  // Use imported mock data instead of local state
   const games = mockGames;
-
-  const getStatusColor = (status) => {
-    switch(status) {
-      case 'Live': return '#ef4444'; // Red
-      case 'Final': return '#22c55e'; // Green
-      case 'Upcoming': return '#fbbf24'; // Yellow
-      default: return '#6b7280'; // Gray
-    }
-  };
 
   return (
     <div style={{ padding: '40px 20px', color: 'white', maxWidth: '1200px', margin: '0 auto' }}>
+      {/* Page Header */}
       <div style={{ marginBottom: '30px' }}>
         <h1 style={{ fontSize: '2.5rem', marginBottom: '10px' }}>🏀 NBA Games</h1>
         <p style={{ opacity: 0.7 }}>Today's schedule and recent results</p>
@@ -71,145 +63,10 @@ function Games() {
         </button>
       </div>
 
-      {/* Games Grid */}
+      {/* Games Grid - Using GameCard Component! */}
       <div style={{ display: 'grid', gap: '20px' }}>
         {games.map(game => (
-          <div 
-            key={game.id}
-            style={{ 
-              backgroundColor: 'rgb(29, 29, 29)', 
-              padding: '25px', 
-              borderRadius: '12px',
-              boxShadow: '0 4px 6px rgba(0,0,0,0.3)',
-              border: game.status === 'Live' ? '2px solid #ef4444' : '1px solid rgba(255,255,255,0.1)',
-              transition: 'transform 0.2s, box-shadow 0.2s',
-              cursor: 'pointer'
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'translateY(-2px)';
-              e.currentTarget.style.boxShadow = '0 8px 12px rgba(0,0,0,0.4)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = 'translateY(0)';
-              e.currentTarget.style.boxShadow = '0 4px 6px rgba(0,0,0,0.3)';
-            }}
-          >
-            {/* Status Badge */}
-            <div style={{ 
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '5px',
-              padding: '5px 12px',
-              backgroundColor: getStatusColor(game.status),
-              borderRadius: '20px',
-              fontSize: '0.75rem',
-              fontWeight: 'bold',
-              marginBottom: '15px'
-            }}>
-              {game.status === 'Live' && <span style={{ fontSize: '8px' }}>●</span>}
-              {game.status} {game.status === 'Live' && `• ${game.quarter}`}
-            </div>
-
-            {/* Teams and Scores */}
-            <div style={{ 
-              display: 'grid',
-              gridTemplateColumns: '1fr auto 1fr',
-              alignItems: 'center',
-              gap: '20px',
-              marginBottom: '15px'
-            }}>
-              {/* Away Team */}
-              <div style={{ textAlign: 'left' }}>
-                <div style={{ fontSize: '1.5rem', marginBottom: '5px' }}>
-                  {game.awayLogo} {game.awayTeam}
-                </div>
-                {game.status !== 'Upcoming' && (
-                  <div style={{ 
-                    fontSize: '2rem', 
-                    fontWeight: 'bold',
-                    color: game.awayScore > game.homeScore ? 'rgb(0, 168, 255)' : 'white'
-                  }}>
-                    {game.awayScore}
-                  </div>
-                )}
-              </div>
-
-              {/* VS or Score Separator */}
-              <div style={{ 
-                fontSize: '1.5rem', 
-                opacity: 0.5,
-                fontWeight: 'bold'
-              }}>
-                {game.status === 'Upcoming' ? 'VS' : '@'}
-              </div>
-
-              {/* Home Team */}
-              <div style={{ textAlign: 'right' }}>
-                <div style={{ fontSize: '1.5rem', marginBottom: '5px' }}>
-                  {game.homeTeam} {game.homeLogo}
-                </div>
-                {game.status !== 'Upcoming' && (
-                  <div style={{ 
-                    fontSize: '2rem', 
-                    fontWeight: 'bold',
-                    color: game.homeScore > game.awayScore ? 'rgb(0, 168, 255)' : 'white'
-                  }}>
-                    {game.homeScore}
-                  </div>
-                )}
-              </div>
-            </div>
-
-            {/* Game Info */}
-            <div style={{ 
-              borderTop: '1px solid rgba(255,255,255,0.1)', 
-              paddingTop: '15px',
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              fontSize: '0.9rem',
-              opacity: 0.7
-            }}>
-              <span>📍 {game.venue}</span>
-              <span>🕐 {game.date}</span>
-            </div>
-
-            {/* Action Buttons */}
-            {game.status !== 'Upcoming' && (
-              <div style={{ 
-                borderTop: '1px solid rgba(255,255,255,0.1)', 
-                paddingTop: '15px',
-                marginTop: '15px',
-                display: 'flex',
-                gap: '10px'
-              }}>
-                <button style={{
-                  flex: 1,
-                  padding: '8px',
-                  backgroundColor: 'rgba(0, 168, 255, 0.1)',
-                  border: '1px solid rgb(0, 168, 255)',
-                  borderRadius: '6px',
-                  color: 'rgb(0, 168, 255)',
-                  cursor: 'pointer',
-                  fontSize: '0.9rem'
-                }}>
-                  Box Score
-                </button>
-                <button style={{
-                  flex: 1,
-                  padding: '8px',
-                  backgroundColor: 'rgba(0, 168, 255, 0.1)',
-                  border: '1px solid rgb(0, 168, 255)',
-                  borderRadius: '6px',
-                  color: 'rgb(0, 168, 255)',
-                  cursor: 'pointer',
-                  fontSize: '0.9rem'
-                }}>
-                  Highlights
-                </button>
-              </div>
-            )}
-          </div>
+          <GameCard key={game.id} game={game} />
         ))}
       </div>
 
