@@ -1,0 +1,6 @@
+{
+  "userId": {"S": "test-user-123"},
+  "email": {"S": "test@example.com"},
+  "favoriteTeam": {"S": "Lakers"},
+  "createdAt": {"S": "2024-01-15T10:30:00Z"}
+}

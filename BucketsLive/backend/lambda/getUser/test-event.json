@@ -1,1 +1,6 @@
-﻿{"pathParameters":{"userId":"user_123"}}
+{
+  "pathParameters": {
+    "userId": "test-user-123"
+  },
+  "queryStringParameters": null
+}

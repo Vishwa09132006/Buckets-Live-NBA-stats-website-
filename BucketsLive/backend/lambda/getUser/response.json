@@ -1,0 +1,1 @@
+{"statusCode":200,"headers":{"Content-Type":"application/json","Access-Control-Allow-Origin":"*"},"body":"{\"success\":true,\"user\":{\"createdAt\":\"2024-01-15T10:30:00Z\",\"favoriteTeam\":\"Lakers\",\"email\":\"test@example.com\",\"userId\":\"test-user-123\"}}"}
