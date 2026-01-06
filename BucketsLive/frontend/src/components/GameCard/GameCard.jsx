@@ -3,7 +3,7 @@ import './GameCard.css';
 
 function GameCard({ game }) {
   const getStatusColor = (status) => {
-    switch(status) {
+    switch (status) {
       case 'Live': return '#ef4444';
       case 'Final': return '#22c55e';
       case 'Upcoming': return '#fbbf24';
@@ -14,7 +14,7 @@ function GameCard({ game }) {
   return (
     <div className="game-card">
       {/* Status Badge */}
-      <div 
+      <div
         className="status-badge"
         style={{ backgroundColor: getStatusColor(game.status) }}
       >
@@ -32,10 +32,10 @@ function GameCard({ game }) {
             {game.awayTeam}
           </div>
           {game.status !== 'Upcoming' && (
-            <div 
+            <div
               className="team-score"
-              style={{ 
-                color: game.awayScore > game.homeScore ? 'rgb(0, 168, 255)' : 'white' 
+              style={{
+                color: game.awayScore > game.homeScore ? 'rgb(0, 168, 255)' : 'white'
               }}
             >
               {game.awayScore}
@@ -55,10 +55,10 @@ function GameCard({ game }) {
             <span className="team-logo">{game.homeLogo}</span>
           </div>
           {game.status !== 'Upcoming' && (
-            <div 
+            <div
               className="team-score"
-              style={{ 
-                color: game.homeScore > game.awayScore ? 'rgb(0, 168, 255)' : 'white' 
+              style={{
+                color: game.homeScore > game.awayScore ? 'rgb(0, 168, 255)' : 'white'
               }}
             >
               {game.homeScore}
@@ -69,8 +69,14 @@ function GameCard({ game }) {
 
       {/* Game Info */}
       <div className="game-info">
-        <span>📍 {game.venue}</span>
-        <span>🕐 {game.date}</span>
+        <span>
+          <span className="material-symbols-outlined" style={{ fontSize: '16px', verticalAlign: 'middle' }}>location_on</span>
+          {' '}{game.venue}
+        </span>
+        <span>
+          <span className="material-symbols-outlined" style={{ fontSize: '16px', verticalAlign: 'middle' }}>schedule</span>
+          {' '}{game.date}
+        </span>
       </div>
 
       {/* Action Buttons - Only for completed/live games */}

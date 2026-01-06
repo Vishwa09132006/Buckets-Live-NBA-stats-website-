@@ -48,7 +48,7 @@
 
 .clear-btn {
     color: rgb(0, 168, 255);
-    font-size: 32px;
+    font-size: 20px;  /* Changed from 32px */
     cursor: pointer;
     margin-left: 10px;
     display: flex;
@@ -59,7 +59,6 @@
     border-radius: 50%;
     transition: background-color 0.3s, transform 0.2s;
     user-select: none;
-    line-height: 1;
 }
 
 .clear-btn:hover {

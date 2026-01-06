@@ -1,5 +1,17 @@
 {
   "dependencies": {
     "react-router-dom": "^7.10.1"
-  }
+  },
+  "name": "bucketslive",
+  "version": "1.0.0",
+  "description": "In the early stages of this NBA Stat Tracker being built with HTML, CSS, Javascript and deployed using AWS cloud services. Stay tuned.",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs"
 }

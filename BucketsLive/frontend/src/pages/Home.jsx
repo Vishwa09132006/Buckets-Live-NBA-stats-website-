@@ -1,352 +1,277 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { getLiveGames, getTodaysGames } from '../data/mockGames';
+import { fetchTodaysGames, fetchRecentGames } from '../services/nbaApi';
+import { getTodaysGames } from '../data/mockGames';
 import { getTopScorers } from '../data/mockPlayers';
 import { getRecentNews } from '../data/mockNews';
 import GameCard from '../components/GameCard/GameCard';
+import StandingsCard from '../components/StandingsCard/StandingsCard';
+import Loading from '../components/Loading/Loading';
+import './Home.css';
 
 function Home() {
-  const liveGames = getLiveGames();
-  const todaysGames = getTodaysGames().slice(0, 3);
+  const [games, setGames] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [usingMockData, setUsingMockData] = useState(false);
+
+  // Other data (still using mock for now)
   const topScorers = getTopScorers(5);
   const recentNews = getRecentNews(3);
 
+  // Fetch real NBA games on component mount
+  useEffect(() => {
+    const loadGames = async () => {
+      setLoading(true);
+      
+      try {
+        // Try to fetch today's games first
+        let gamesData = await fetchTodaysGames();
+        
+        // If no games today, try yesterday's games
+        if (!gamesData || gamesData.length === 0) {
+          console.log('No games today, fetching recent games...');
+          gamesData = await fetchRecentGames();
+        }
+        
+        // If API fails or returns nothing, use mock data
+        if (!gamesData || gamesData.length === 0) {
+          console.log('Using mock data as fallback');
+          gamesData = getTodaysGames();
+          setUsingMockData(true);
+        }
+        
+        setGames(gamesData);
+      } catch (err) {
+        console.error('Error loading games:', err);
+        // Fallback to mock data on error
+        setGames(getTodaysGames());
+        setUsingMockData(true);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadGames();
+  }, []);
+
+  // Separate live and upcoming games
+  const liveGames = games.filter(game => game.status === 'Live');
+  const todaysGames = games.filter(game => game.status !== 'Live').slice(0, 3);
+
+  if (loading) {
+    return <Loading />;
+  }
+
   return (
-    <div style={{ color: 'white' }}>
+    <div className="home-page">
+      {/* Show data source indicator */}
+      {usingMockData && (
+        <div style={{
+          backgroundColor: 'rgba(251, 191, 36, 0.2)',
+          border: '1px solid rgba(251, 191, 36, 0.5)',
+          color: '#fbbf24',
+          padding: '10px 20px',
+          textAlign: 'center',
+          fontSize: '0.9rem'
+        }}>
+          ⚠️ Using sample data - Real NBA API may be unavailable
+        </div>
+      )}
+
       {/* Hero Section */}
-      <div style={{ 
-        padding: '60px 20px',
-        background: 'linear-gradient(135deg, rgb(29, 29, 29) 0%, rgb(20, 20, 20) 100%)',
-        textAlign: 'center'
-      }}>
-        <h1 style={{ 
-          fontSize: '3.5rem', 
-          marginBottom: '20px',
-          background: 'linear-gradient(135deg, white, rgb(0, 168, 255))',
-          WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: 'transparent',
-          backgroundClip: 'text'
-        }}>
-          🏀 Welcome to BucketsLive
+      <div className="hero-section">
+        <h1 className="hero-title">
+          <span className="material-symbols-outlined" style={{fontSize: '3rem', verticalAlign: 'middle'}}>
+            sports_basketball
+          </span>
+          Welcome to BucketsLive
         </h1>
-        <p style={{ 
-          fontSize: '1.3rem', 
-          marginBottom: '30px', 
-          opacity: 0.9,
-          maxWidth: '700px',
-          margin: '0 auto 30px'
-        }}>
+        <p className="hero-subtitle">
           Your ultimate NBA stats tracker with real-time scores, AI predictions, and comprehensive analytics
         </p>
-        <div style={{ display: 'flex', gap: '15px', justifyContent: 'center', flexWrap: 'wrap' }}>
-          <Link to="/games" style={{ textDecoration: 'none' }}>
-            <button style={{
-              padding: '15px 30px',
-              backgroundColor: 'rgb(0, 168, 255)',
-              border: 'none',
-              borderRadius: '8px',
-              color: 'white',
-              fontSize: '1rem',
-              fontWeight: 'bold',
-              cursor: 'pointer',
-              transition: 'transform 0.2s, box-shadow 0.2s'
-            }}
-            onMouseEnter={(e) => {
-              e.target.style.transform = 'translateY(-2px)';
-              e.target.style.boxShadow = '0 8px 16px rgba(0, 168, 255, 0.4)';
-            }}
-            onMouseLeave={(e) => {
-              e.target.style.transform = 'translateY(0)';
-              e.target.style.boxShadow = 'none';
-            }}>
-              View Games
-            </button>
+        <div className="hero-buttons">
+          <Link to="/games">
+            <button className="btn-primary">View Games</button>
           </Link>
-          <Link to="/players" style={{ textDecoration: 'none' }}>
-            <button style={{
-              padding: '15px 30px',
-              backgroundColor: 'transparent',
-              border: '2px solid rgb(0, 168, 255)',
-              borderRadius: '8px',
-              color: 'rgb(0, 168, 255)',
-              fontSize: '1rem',
-              fontWeight: 'bold',
-              cursor: 'pointer',
-              transition: 'all 0.2s'
-            }}
-            onMouseEnter={(e) => {
-              e.target.style.backgroundColor = 'rgb(0, 168, 255)';
-              e.target.style.color = 'white';
-            }}
-            onMouseLeave={(e) => {
-              e.target.style.backgroundColor = 'transparent';
-              e.target.style.color = 'rgb(0, 168, 255)';
-            }}>
-              Explore Players
-            </button>
+          <Link to="/players">
+            <button className="btn-secondary">Explore Players</button>
           </Link>
         </div>
       </div>
 
-      {/* Main Content */}
-      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '40px 20px' }}>
-        
-        {/* Live Games Section */}
-        {liveGames.length > 0 && (
-          <section style={{ marginBottom: '60px' }}>
-            <div style={{ 
-              display: 'flex', 
-              justifyContent: 'space-between', 
-              alignItems: 'center',
-              marginBottom: '20px'
-            }}>
-              <h2 style={{ fontSize: '2rem', display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <span style={{ color: '#ef4444', animation: 'pulse 1.5s infinite' }}>●</span>
-                Live Now
+      {/* Main Content with Sidebar */}
+      <div className="home-container">
+        {/* Main Content Area */}
+        <div className="main-content">
+          
+          {/* Live Games Section */}
+          {liveGames.length > 0 && (
+            <section className="content-section">
+              <div className="section-header">
+                <h2>
+                  <span className="live-indicator">●</span>
+                  Live Now
+                </h2>
+                <Link to="/games" className="view-all-link">
+                  View All →
+                </Link>
+              </div>
+              <div className="games-grid">
+                {liveGames.map(game => (
+                  <GameCard key={game.id} game={game} />
+                ))}
+              </div>
+            </section>
+          )}
+
+          {/* Today's Games */}
+          <section className="content-section">
+            <div className="section-header">
+              <h2>
+                <span className="material-symbols-outlined">calendar_today</span>
+                {usingMockData ? "Sample Games" : "Today's Games"}
               </h2>
-              <Link to="/games" style={{ color: 'rgb(0, 168, 255)', fontSize: '1rem' }}>
+              <Link to="/games" className="view-all-link">
                 View All →
               </Link>
             </div>
-            <div style={{ display: 'grid', gap: '20px' }}>
-              {liveGames.map(game => (
-                <GameCard key={game.id} game={game} />
+            {games.length === 0 ? (
+              <div style={{
+                textAlign: 'center',
+                padding: '40px',
+                color: 'white',
+                opacity: 0.7
+              }}>
+                No games scheduled for today
+              </div>
+            ) : (
+              <div className="games-grid">
+                {todaysGames.map(game => (
+                  <GameCard key={game.id} game={game} />
+                ))}
+              </div>
+            )}
+          </section>
+
+          {/* Top Scorers */}
+          <section className="content-section">
+            <div className="section-header">
+              <h2>
+                <span className="material-symbols-outlined">local_fire_department</span>
+                Top Scorers
+              </h2>
+              <Link to="/players" className="view-all-link">
+                View All →
+              </Link>
+            </div>
+            <div className="scorers-grid">
+              {topScorers.map((player, index) => (
+                <div 
+                  key={player.id}
+                  className={`scorer-card ${index === 0 ? 'top-scorer' : ''}`}
+                >
+                  <div className="scorer-header">
+                    <span className="scorer-rank">#{index + 1}</span>
+                    {index === 0 && (
+                      <span className="material-symbols-outlined crown-icon">
+                        workspace_premium
+                      </span>
+                    )}
+                  </div>
+                  <h3 className="scorer-name">{player.name}</h3>
+                  <p className="scorer-team">{player.team}</p>
+                  <div className="scorer-stats">
+                    {player.ppg} <span className="stat-label">PPG</span>
+                  </div>
+                </div>
               ))}
             </div>
           </section>
-        )}
 
-        {/* Today's Games */}
-        <section style={{ marginBottom: '60px' }}>
-          <div style={{ 
-            display: 'flex', 
-            justifyContent: 'space-between', 
-            alignItems: 'center',
-            marginBottom: '20px'
-          }}>
-            <h2 style={{ fontSize: '2rem' }}>📅 Today's Games</h2>
-            <Link to="/games" style={{ color: 'rgb(0, 168, 255)', fontSize: '1rem' }}>
-              View All →
-            </Link>
-          </div>
-          <div style={{ display: 'grid', gap: '20px' }}>
-            {todaysGames.map(game => (
-              <GameCard key={game.id} game={game} />
-            ))}
-          </div>
-        </section>
-
-        {/* Top Scorers */}
-        <section style={{ marginBottom: '60px' }}>
-          <div style={{ 
-            display: 'flex', 
-            justifyContent: 'space-between', 
-            alignItems: 'center',
-            marginBottom: '20px'
-          }}>
-            <h2 style={{ fontSize: '2rem' }}>🔥 Top Scorers</h2>
-            <Link to="/players" style={{ color: 'rgb(0, 168, 255)', fontSize: '1rem' }}>
-              View All →
-            </Link>
-          </div>
-          <div style={{ 
-            display: 'grid', 
-            gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-            gap: '15px'
-          }}>
-            {topScorers.map((player, index) => (
-              <div 
-                key={player.id}
-                style={{
-                  backgroundColor: 'rgb(29, 29, 29)',
-                  padding: '20px',
-                  borderRadius: '10px',
-                  border: index === 0 ? '2px solid gold' : '1px solid rgba(255,255,255,0.1)',
-                  transition: 'transform 0.2s',
-                  cursor: 'pointer'
-                }}
-                onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-4px)'}
-                onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
-              >
-                <div style={{ 
-                  display: 'flex', 
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  marginBottom: '10px'
-                }}>
-                  <span style={{ 
-                    fontSize: '1.5rem',
-                    fontWeight: 'bold',
-                    color: index === 0 ? 'gold' : 'rgb(0, 168, 255)'
-                  }}>
-                    #{index + 1}
-                  </span>
-                  {index === 0 && <span style={{ fontSize: '1.5rem' }}>👑</span>}
-                </div>
-                <h3 style={{ 
-                  fontSize: '1.1rem', 
-                  marginBottom: '5px',
-                  whiteSpace: 'nowrap',
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis'
-                }}>
-                  {player.name}
-                </h3>
-                <p style={{ opacity: 0.7, fontSize: '0.9rem', marginBottom: '10px' }}>
-                  {player.team}
-                </p>
-                <div style={{ 
-                  fontSize: '2rem', 
-                  fontWeight: 'bold',
-                  color: 'rgb(0, 168, 255)'
-                }}>
-                  {player.ppg} <span style={{ fontSize: '0.9rem', opacity: 0.7 }}>PPG</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* Latest News */}
-        <section style={{ marginBottom: '60px' }}>
-          <div style={{ 
-            display: 'flex', 
-            justifyContent: 'space-between', 
-            alignItems: 'center',
-            marginBottom: '20px'
-          }}>
-            <h2 style={{ fontSize: '2rem' }}>📰 Latest News</h2>
-            <Link to="/news" style={{ color: 'rgb(0, 168, 255)', fontSize: '1rem' }}>
-              View All →
-            </Link>
-          </div>
-          <div style={{ display: 'grid', gap: '15px' }}>
-            {recentNews.map(article => (
-              <div 
-                key={article.id}
-                style={{
-                  backgroundColor: 'rgb(29, 29, 29)',
-                  padding: '20px',
-                  borderRadius: '10px',
-                  border: '1px solid rgba(255,255,255,0.1)',
-                  transition: 'transform 0.2s',
-                  cursor: 'pointer'
-                }}
-                onMouseEnter={(e) => e.currentTarget.style.transform = 'translateX(5px)'}
-                onMouseLeave={(e) => e.currentTarget.style.transform = 'translateX(0)'}
-              >
-                <div style={{ display: 'flex', gap: '15px', alignItems: 'flex-start' }}>
-                  <span style={{ fontSize: '2.5rem' }}>{article.image}</span>
-                  <div style={{ flex: 1 }}>
-                    <div style={{ 
-                      display: 'flex', 
-                      gap: '10px', 
-                      alignItems: 'center',
-                      marginBottom: '8px'
-                    }}>
-                      <span style={{ 
-                        backgroundColor: 'rgba(0, 168, 255, 0.2)',
-                        color: 'rgb(0, 168, 255)',
-                        padding: '3px 10px',
-                        borderRadius: '12px',
-                        fontSize: '0.75rem',
-                        fontWeight: 'bold'
-                      }}>
-                        {article.category}
-                      </span>
-                      <span style={{ opacity: 0.5, fontSize: '0.85rem' }}>
-                        {article.date}
-                      </span>
+          {/* Latest News */}
+          <section className="content-section">
+            <div className="section-header">
+              <h2>
+                <span className="material-symbols-outlined">newspaper</span>
+                Latest News
+              </h2>
+              <Link to="/news" className="view-all-link">
+                View All →
+              </Link>
+            </div>
+            <div className="news-grid">
+              {recentNews.map(article => (
+                <div key={article.id} className="news-card">
+                  <div className="news-content">
+                    <span className="news-icon">{article.image}</span>
+                    <div className="news-text">
+                      <div className="news-meta">
+                        <span className="news-category">{article.category}</span>
+                        <span className="news-date">{article.date}</span>
+                      </div>
+                      <h3 className="news-title">{article.title}</h3>
+                      <p className="news-summary">{article.summary}</p>
                     </div>
-                    <h3 style={{ 
-                      fontSize: '1.2rem',
-                      marginBottom: '8px',
-                      color: 'white'
-                    }}>
-                      {article.title}
-                    </h3>
-                    <p style={{ opacity: 0.7, fontSize: '0.95rem', lineHeight: '1.5' }}>
-                      {article.summary}
-                    </p>
                   </div>
                 </div>
+              ))}
+            </div>
+          </section>
+        </div>
+
+        {/* Sidebar */}
+        <aside className="sidebar-content">
+          <StandingsCard />
+          
+          {/* Features Card */}
+          <div className="features-card">
+            <h3 className="features-title">
+              <span className="material-symbols-outlined">bolt</span>
+              Platform Features
+            </h3>
+            <div className="features-list">
+              <div className="feature-item">
+                <span className="material-symbols-outlined feature-icon">
+                  query_stats
+                </span>
+                <div>
+                  <h4>Live Scores</h4>
+                  <p>Real-time game tracking</p>
+                </div>
               </div>
-            ))}
-          </div>
-        </section>
-
-        {/* Features Grid */}
-        <section>
-          <h2 style={{ fontSize: '2rem', marginBottom: '30px', textAlign: 'center' }}>
-            ⚡ Platform Features
-          </h2>
-          <div style={{ 
-            display: 'grid', 
-            gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', 
-            gap: '20px'
-          }}>
-            <div style={{ 
-              backgroundColor: 'rgb(29, 29, 29)', 
-              padding: '30px', 
-              borderRadius: '10px',
-              textAlign: 'center'
-            }}>
-              <h3 style={{ color: 'rgb(0, 168, 255)', marginBottom: '10px', fontSize: '2rem' }}>
-                📊
-              </h3>
-              <h4 style={{ marginBottom: '10px' }}>Live Scores</h4>
-              <p style={{ opacity: 0.8, fontSize: '0.95rem' }}>
-                Track real-time NBA game scores and stats as they happen
-              </p>
-            </div>
-
-            <div style={{ 
-              backgroundColor: 'rgb(29, 29, 29)', 
-              padding: '30px', 
-              borderRadius: '10px',
-              textAlign: 'center'
-            }}>
-              <h3 style={{ color: 'rgb(0, 168, 255)', marginBottom: '10px', fontSize: '2rem' }}>
-                🤖
-              </h3>
-              <h4 style={{ marginBottom: '10px' }}>AI Predictions</h4>
-              <p style={{ opacity: 0.8, fontSize: '0.95rem' }}>
-                Get AI-powered game outcome predictions based on performance
-              </p>
-            </div>
-
-            <div style={{ 
-              backgroundColor: 'rgb(29, 29, 29)', 
-              padding: '30px', 
-              borderRadius: '10px',
-              textAlign: 'center'
-            }}>
-              <h3 style={{ color: 'rgb(0, 168, 255)', marginBottom: '10px', fontSize: '2rem' }}>
-                👥
-              </h3>
-              <h4 style={{ marginBottom: '10px' }}>Player Stats</h4>
-              <p style={{ opacity: 0.8, fontSize: '0.95rem' }}>
-                Deep dive into individual player statistics and analytics
-              </p>
-            </div>
-
-            <div style={{ 
-              backgroundColor: 'rgb(29, 29, 29)', 
-              padding: '30px', 
-              borderRadius: '10px',
-              textAlign: 'center'
-            }}>
-              <h3 style={{ color: 'rgb(0, 168, 255)', marginBottom: '10px', fontSize: '2rem' }}>
-                ☁️
-              </h3>
-              <h4 style={{ marginBottom: '10px' }}>AWS Powered</h4>
-              <p style={{ opacity: 0.8, fontSize: '0.95rem' }}>
-                Scalable cloud infrastructure for reliable performance
-              </p>
+              
+              <div className="feature-item">
+                <span className="material-symbols-outlined feature-icon">
+                  psychology
+                </span>
+                <div>
+                  <h4>AI Predictions</h4>
+                  <p>ML-powered forecasts</p>
+                </div>
+              </div>
+              
+              <div className="feature-item">
+                <span className="material-symbols-outlined feature-icon">
+                  groups
+                </span>
+                <div>
+                  <h4>Player Stats</h4>
+                  <p>Deep analytics</p>
+                </div>
+              </div>
+              
+              <div className="feature-item">
+                <span className="material-symbols-outlined feature-icon">
+                  cloud
+                </span>
+                <div>
+                  <h4>AWS Powered</h4>
+                  <p>Scalable infrastructure</p>
+                </div>
+              </div>
             </div>
           </div>
-        </section>
-
+        </aside>
       </div>
     </div>
   );

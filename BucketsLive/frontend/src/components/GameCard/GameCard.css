@@ -168,3 +168,65 @@
         padding: 8px;
     }
 }
+
+/* ========== PROFESSIONAL IMPROVEMENTS ========== */
+
+/* Enhanced card with gradient */
+.game-card {
+    background: linear-gradient(135deg, rgb(29, 29, 29), rgb(35, 35, 35));
+    border: 1px solid rgba(0, 168, 255, 0.2);
+}
+
+.game-card:hover {
+    border-color: rgba(0, 168, 255, 0.4);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(0, 168, 255, 0.15);
+}
+
+/* Bigger, bolder team logos */
+.team-logo {
+    font-size: 2.5rem;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+}
+
+/* Professional uppercase team names */
+.team-name {
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 800;
+}
+
+/* Status badges with better colors */
+.status-badge {
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 0.7rem;
+    padding: 6px 14px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Better score highlighting */
+.team-score {
+    font-weight: 900;
+    text-shadow: 0 2px 4px rgba(0, 168, 255, 0.3);
+}
+
+/* Sleeker action buttons */
+.action-btn {
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+    font-size: 0.8rem;
+}
+
+/* Game info with better spacing */
+.game-info {
+    font-size: 0.85rem;
+    opacity: 0.8;
+}
+
+.game-info span {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}

@@ -20,22 +20,23 @@ function SearchBar() {
     <div className="search-container">
       <form onSubmit={handleSearch} className="search-bar">
         <span className="material-symbols-outlined search-icon">search</span>
-        
-        <input 
+
+        <input
           type="text"
           value={searchValue}
           onChange={(e) => setSearchValue(e.target.value)}
           placeholder="Search players, teams, stats and news..."
           className="search-input"
         />
-        
+
         {searchValue && (
-          <span 
-            className="clear-btn" 
+          <span
+            className="clear-btn material-symbols-outlined"
             onClick={clearSearch}
             title="Clear search"
+            style={{ fontSize: '20px' }}
           >
-            ×
+            close
           </span>
         )}
       </form>
