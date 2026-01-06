@@ -1,5 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Amplify } from 'aws-amplify';
+import awsConfig from './aws-config';
 import Navbar from './components/Navbar/Navbar';
 import SearchBar from './components/SearchBar/SearchBar';
 import Home from './pages/Home';
@@ -9,6 +11,9 @@ import News from './pages/News';
 import Players from './pages/Players';
 import About from './pages/About';
 import './App.css';
+
+// Configure Amplify
+Amplify.configure(awsConfig);
 
 function App() {
   return (

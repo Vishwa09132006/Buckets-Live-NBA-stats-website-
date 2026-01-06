@@ -1,0 +1,3 @@
+User Pool ID: us-east-2_ThLLhquGO
+Client ID: 4iaafvhh78m4gsacbkabc3oavg
+Region: us-east-2
